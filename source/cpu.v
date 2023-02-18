@@ -88,7 +88,32 @@ module cpu (
 			4'b1111: A <= A | B;
 			endcase
 		end else if(instructionCounter == 2) begin
-			
+			case (instructionData[0][7:4])
+			4'b0101: A <= instructionData[1];
+			4'b0110: begin
+				addressBus <= {instructionData[0][3:0], instructionData[1]};
+				write <= 0;
+			end
+			4'b0111: begin
+				addressBus <= {instructionData[0][3:0], instructionData[1]} + C;
+				write <= 0;
+			end
+			4'b1000: begin
+				addressBus <= {instructionData[0][3:0], instructionData[1]};
+				write <= 1;
+				out <= A;
+			end
+			4'b1001: begin
+				addressBus <= {instructionData[0][3:0], instructionData[1]} + C;
+				write <= 1;
+				out <= A;
+			end
+
+			4'b1011: if (PF[1]) IP <= {instructionData[0][3:0], instructionData[1]};
+			4'b1100: IP <= {instructionData[0][3:0], instructionData[1]};
+
+			default: instructionCounter <= 3;
+			endcase
 		end else if(instructionCounter == 3) begin
 			
 		end
@@ -99,32 +124,33 @@ module cpu (
 			sync <= 0;
 			instructionData[0] <= dataBus;
 			IP <= IP + 1;
-			instructionCounter <= instructionCounter + 1;
 		end else if(instructionCounter == 1) begin
 			case (instructionData[0][7:4])
-			4'b0000: instructionCounter <= 0;
-			4'b0001: instructionCounter <= 0;
-			4'b0010: instructionCounter <= 0;
-			4'b0011: instructionCounter <= 0;
-			4'b0100: instructionCounter <= 0;
+			4'b0000: instructionCounter <= 3;
+			4'b0001: instructionCounter <= 3;
+			4'b0010: instructionCounter <= 3;
+			4'b0011: instructionCounter <= 3;
+			4'b0100: instructionCounter <= 3;
 			4'b0101: instructionData[1] <= dataBus;
 			4'b0110: instructionData[1] <= dataBus;
 			4'b0111: instructionData[1] <= dataBus;
 			4'b1000: instructionData[1] <= dataBus;
 			4'b1001: instructionData[1] <= dataBus;
-			4'b1010: instructionCounter <= 0;
+			4'b1010: instructionCounter <= 3;
 			4'b1011: instructionData[1] <= dataBus;
 			4'b1100: instructionData[1] <= dataBus;
-			4'b1101: instructionCounter <= 0;
-			4'b1110: instructionCounter <= 0;
-			4'b1111: instructionCounter <= 0;
+			4'b1101: instructionCounter <= 3;
+			4'b1110: instructionCounter <= 3;
+			4'b1111: instructionCounter <= 3;
 			endcase
 		end else if(instructionCounter == 2) begin
 			
 		end else if(instructionCounter == 3) begin
 			
 		end
+
+		instructionCounter <= instructionCounter + 1;
 	end
 
-	assign out = write ? out : 8'hZZ;
+	assign dataBus = write ? out : 8'hZZ;
 endmodule
