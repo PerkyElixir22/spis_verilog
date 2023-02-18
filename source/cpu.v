@@ -97,7 +97,7 @@ module cpu (
 			endcase
 		end
 
-		#0.5; // Would have put the following in an always@(negedge clock) but if i did that then it would execute right at the beginning of the simulation.
+		#0.5;
 
 		if (instructionCounter == 0) begin
 			sync <= 0;
