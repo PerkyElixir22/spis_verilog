@@ -122,24 +122,53 @@ module cpu (
 			sync <= 0;
 			instructionData[0] <= dataBus;
 			IP <= IP + 1;
+			instructionCounter <= 1;
 		end else if(instructionCounter == 1) begin
 			case (instructionData[0][7:4])
-			4'b0000: instructionCounter <= 3;
-			4'b0001: instructionCounter <= 3;
-			4'b0010: instructionCounter <= 3;
-			4'b0011: instructionCounter <= 3;
-			4'b0100: instructionCounter <= 3;
-			4'b0101: instructionData[1] <= dataBus;
-			4'b0110: instructionData[1] <= dataBus;
-			4'b0111: instructionData[1] <= dataBus;
-			4'b1000: instructionData[1] <= dataBus;
-			4'b1001: instructionData[1] <= dataBus;
-			4'b1010: instructionCounter <= 3;
-			4'b1011: instructionData[1] <= dataBus;
-			4'b1100: instructionData[1] <= dataBus;
-			4'b1101: instructionCounter <= 3;
-			4'b1110: instructionCounter <= 3;
-			4'b1111: instructionCounter <= 3;
+			4'b0000: instructionCounter <= 0;
+			4'b0001: instructionCounter <= 0;
+			4'b0010: instructionCounter <= 0;
+			4'b0011: instructionCounter <= 0;
+			4'b0100: instructionCounter <= 0;
+			4'b0101: begin
+				instructionData[1] <= dataBus;
+				instructionCounter <= 2;
+				IP <= IP + 1;
+			end
+			4'b0110: begin
+				instructionData[1] <= dataBus;
+				instructionCounter <= 2;
+				IP <= IP + 1;
+			end
+			4'b0111: begin
+				instructionData[1] <= dataBus;
+				instructionCounter <= 2;
+				IP <= IP + 1;
+			end
+			4'b1000: begin
+				instructionData[1] <= dataBus;
+				instructionCounter <= 2;
+				IP <= IP + 1;
+			end
+			4'b1001: begin
+				instructionData[1] <= dataBus;
+				instructionCounter <= 2;
+				IP <= IP + 1;
+			end
+			4'b1010: instructionCounter <= 0;
+			4'b1011: begin
+				instructionData[1] <= dataBus;
+				instructionCounter <= 2;
+				IP <= IP + 1;
+			end
+			4'b1100: begin
+				instructionData[1] <= dataBus;
+				instructionCounter <= 2;
+				IP <= IP + 1;
+			end
+			4'b1101: instructionCounter <= 0;
+			4'b1110: instructionCounter <= 0;
+			4'b1111: instructionCounter <= 0;
 			endcase
 		end else if(instructionCounter == 2) begin
 			case (instructionData[0][7:4])
@@ -148,9 +177,11 @@ module cpu (
 			4'b1000: write <= 0;
 			4'b1001: write <= 0;
 			endcase
+			instructionCounter <= 0;
+		end else begin
+			instructionCounter <= 0;
+			$display("Invalid state!");
 		end
-
-		instructionCounter <= instructionCounter + 1;
 	end
 
 	assign dataBus = write ? out : 8'hZZ;
