@@ -39,6 +39,15 @@
 					</div>
 				</div><hr>
 				<div>
+					<h2>Instruction Encoding</h2>
+					<div class="code">
+						4 bits &nbsp; &nbsp;| OpCode<br>
+						[4 bits] &nbsp;| Padding (For instructions that don't use displacement)<br>
+						[12 bits] | Displacement<br>
+						[8 bits] &nbsp;| Immediate
+					</div>
+				</div><hr>
+				<div>
 					<h2>Memory Map</h2>
 					<div class="code">
 						000 => BFF | &nbsp; &nbsp; 3 kiB | Code ROM<br>
