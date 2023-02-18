@@ -14,7 +14,7 @@ module cpu (
 	reg[7:0] B;
 	reg[7:0] C;
 	reg[11:0] IP;
-	reg[1:0] PF; // 0: Carry 1: Unused (cant be bothered to change it right now)
+	reg carry;
 
 	reg[7:0] instructionData[2];
 	reg[1:0] instructionCounter; // Keeps track of where we are in the current instruction
@@ -26,7 +26,7 @@ module cpu (
 		B <= 0;
 		C <= 0;
 		IP <= 0;
-		PF <= 0;
+		carry <= 0;
 
 		addressBus <= 0;
 		write <= 0;
@@ -43,10 +43,10 @@ module cpu (
 			write <= 0;
 		end else if(instructionCounter == 1) begin
 			case (instructionData[0][7:4])
-			4'b0000: {PF[0], A} <= A + B;
-			4'b0001: {PF[0], A} <= A - B;
-			4'b0010: {PF[0], A} <= A + B + PF[0];
-			4'b0011: {PF[0], A} <= A - B + PF[1];
+			4'b0000: {carry, A} <= A + B;
+			4'b0001: {carry, A} <= A - B;
+			4'b0010: {carry, A} <= A + B + carry;
+			4'b0011: {carry, A} <= A - B + carry;
 			4'b0100: begin
 				A <= B;
 				B <= A;
