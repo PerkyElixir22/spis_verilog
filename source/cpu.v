@@ -89,7 +89,6 @@ module cpu (
 			endcase
 		end else if(instructionCounter == 2) begin
 			case (instructionData[0][7:4])
-			4'b0101: A <= instructionData[1];
 			4'b0110: begin
 				addressBus <= {instructionData[0][3:0], instructionData[1]};
 				write <= 0;
@@ -131,8 +130,8 @@ module cpu (
 			4'b0011: instructionCounter <= 0;
 			4'b0100: instructionCounter <= 0;
 			4'b0101: begin
-				instructionData[1] <= dataBus;
-				instructionCounter <= 2;
+				A <= dataBus;
+				instructionCounter <= 0;
 				IP <= IP + 1;
 			end
 			4'b0110: begin
