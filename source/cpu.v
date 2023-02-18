@@ -108,9 +108,6 @@ module cpu (
 				out <= A;
 			end
 
-			4'b1011: if (A == B) IP <= {instructionData[0][3:0], instructionData[1]};
-			4'b1100: IP <= {instructionData[0][3:0], instructionData[1]};
-
 			default: instructionCounter <= 3;
 			endcase
 		end
@@ -157,13 +154,16 @@ module cpu (
 			4'b1010: instructionCounter <= 0;
 			4'b1011: begin
 				instructionData[1] <= dataBus;
-				instructionCounter <= 2;
-				IP <= IP + 1;
+				if (A == B)
+					IP <= {instructionData[0][3:0], dataBus};
+				else
+					IP <= IP + 1;
+				instructionCounter <= 0;
 			end
 			4'b1100: begin
 				instructionData[1] <= dataBus;
-				instructionCounter <= 2;
-				IP <= IP + 1;
+				IP <= {instructionData[0][3:0], dataBus};
+				instructionCounter <= 0;
 			end
 			4'b1101: instructionCounter <= 0;
 			4'b1110: instructionCounter <= 0;
