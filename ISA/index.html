@@ -47,7 +47,7 @@
 					</div>
 				</div><hr>
 				<div>
-					<h2>"Hello, world!" example (40 bytes)</h2>
+					<h2>"Hello, world!" example (39 bytes)</h2>
 					<div class="code">
 						main:<br>
 						&nbsp; LOAD A, 0<br>
@@ -69,14 +69,13 @@
 						&nbsp; ; Check if End-of-Message has been reached<br>
 						&nbsp; SWP A, B<br>
 						&nbsp; SWP A, C<br>
-						&nbsp; CMP A, B<br>
+						&nbsp; JE .end<br>
 						<br>
 						&nbsp; ; Make registers the correct order<br>
 						&nbsp; SWP A, B<br>
 						&nbsp; SWP A, C<br>
 						<br>
 						&nbsp; ; If End-of-Message was reached jump to end, otherwise jump to start of loop<br>
-						&nbsp; JE .end<br>
 						&nbsp; JMP .loop<br>
 						.end:<br>
 						&nbsp; JMP $<br>
