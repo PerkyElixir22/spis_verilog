@@ -101,7 +101,24 @@ module cpu (
 			IP <= IP + 1;
 			instructionCounter <= instructionCounter + 1;
 		end else if(instructionCounter == 1) begin
-			
+			case (instructionData[0][7:4])
+			4'b0000: instructionCounter <= 0;
+			4'b0001: instructionCounter <= 0;
+			4'b0010: instructionCounter <= 0;
+			4'b0011: instructionCounter <= 0;
+			4'b0100: instructionCounter <= 0;
+			4'b0101: instructionData[1] <= dataBus;
+			4'b0110: instructionData[1] <= dataBus;
+			4'b0111: instructionData[1] <= dataBus;
+			4'b1000: instructionData[1] <= dataBus;
+			4'b1001: instructionData[1] <= dataBus;
+			4'b1010: instructionCounter <= 0;
+			4'b1011: instructionData[1] <= dataBus;
+			4'b1100: instructionData[1] <= dataBus;
+			4'b1101: instructionCounter <= 0;
+			4'b1110: instructionCounter <= 0;
+			4'b1111: instructionCounter <= 0;
+			endcase
 		end else if(instructionCounter == 2) begin
 			
 		end else if(instructionCounter == 3) begin
