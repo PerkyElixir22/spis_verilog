@@ -18,7 +18,7 @@ module testbench;
 
 		clock = 0;
 
-		for(integer i = 0; i < 1000; i = i + 1) begin
+		for(integer i = 0; i < 12288; i = i + 1) begin
 			#1 clock = ~clock;
 		end
 	end

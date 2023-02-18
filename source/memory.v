@@ -12,10 +12,12 @@ module memory (
 
 	initial begin
 		for (integer i = 0; i < 4096; i = i + 1)
-			mem[i] = 0;
+			mem[i] = 8'h88;
 	end
 
 	always @ (posedge clock) begin
+		#0.05; // Have to have a delay here because otherwise it wouldn't "register" the other parameters changing
+
 		if (write)
 			mem[addressBus] <= dataBus;
 		else
