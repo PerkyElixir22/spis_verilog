@@ -114,8 +114,6 @@ module cpu (
 
 			default: instructionCounter <= 3;
 			endcase
-		end else if(instructionCounter == 3) begin
-			
 		end
 
 		#1; // Would have put the following in an always@(negedge clock) but if i did that then it would execute right at the beginning of the simulation.
@@ -144,9 +142,12 @@ module cpu (
 			4'b1111: instructionCounter <= 3;
 			endcase
 		end else if(instructionCounter == 2) begin
-			
-		end else if(instructionCounter == 3) begin
-			
+			case (instructionData[0][7:4])
+			4'b0110: A <= dataBus;
+			4'b0111: A <= dataBus;
+			4'b1000: write <= 0;
+			4'b1001: write <= 0;
+			endcase
 		end
 
 		instructionCounter <= instructionCounter + 1;
