@@ -10,9 +10,16 @@ module memory (
 
 	reg[7:0] tmp;
 
+	integer fileD;
+
 	initial begin
-		for (integer i = 0; i < 4096; i = i + 1)
-			mem[i] = 8'h88;
+		
+		for(integer i = 0; i < 4096; i = i + 1)
+			mem[i] = 0;
+
+		fileD = $fopen("prog.bin", "rb");
+		$fread(mem, fileD);
+		$fclose(fileD);
 	end
 
 	always @ (posedge clock) begin

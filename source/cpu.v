@@ -14,7 +14,7 @@ module cpu (
 	reg[7:0] B;
 	reg[7:0] C;
 	reg[11:0] IP;
-	reg[1:0] PF; // 0: Carry 1: Zero
+	reg[1:0] PF; // 0: Carry 1: Unused (cant be bothered to change it right now)
 
 	reg[7:0] instructionData[2];
 	reg[1:0] instructionCounter; // Keeps track of where we are in the current instruction
@@ -109,7 +109,7 @@ module cpu (
 				out <= A;
 			end
 
-			4'b1011: if (PF[1]) IP <= {instructionData[0][3:0], instructionData[1]};
+			4'b1011: if (A == B) IP <= {instructionData[0][3:0], instructionData[1]};
 			4'b1100: IP <= {instructionData[0][3:0], instructionData[1]};
 
 			default: instructionCounter <= 3;
@@ -178,10 +178,9 @@ module cpu (
 			4'b1001: write <= 0;
 			endcase
 			instructionCounter <= 0;
-		end else begin
+		end else
 			instructionCounter <= 0;
-			$display("Invalid state!");
-		end
+
 	end
 
 	assign dataBus = write ? out : 8'hZZ;
