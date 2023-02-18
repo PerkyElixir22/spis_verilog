@@ -20,22 +20,22 @@
 				<div>
 					<h2>Instructions</h2>
 					<div class="code">
-						0 - ADD A, B<br>
-						1 - SUB A, B<br>
-						2 - ADC A, B<br>
-						3 - SBB A, B<br>
-						4 - SWP A, B<br>
-						5 - LOAD A, imm8<br>
-						6 - LOAD A, [disp12]<br>
-						7 - LOAD A, [disp12+C]<br>
-						8 - STORE [disp12], A<br>
-						9 - STORE [disp12+C], A<br>
-						A - SWP A, C<br>
-						B - JE disp12<br>
-						C - JMP disp12<br>
-						D - NOT A<br>
-						E - AND A, B<br>
-						F - OR A, B
+						0 - 2 cycles - ADD A, B<br>
+						1 - 2 cycles - SUB A, B<br>
+						2 - 2 cycles - ADC A, B<br>
+						3 - 2 cycles - SBB A, B<br>
+						4 - 2 cycles - SWP A, B<br>
+						5 - 2 cycles - LOAD A, imm8<br>
+						6 - 3 cycles - LOAD A, [disp12]<br>
+						7 - 3 cycles - LOAD A, [disp12+C]<br>
+						8 - 3 cycles - STORE [disp12], A<br>
+						9 - 3 cycles - STORE [disp12+C], A<br>
+						A - 2 cycles - SWP A, C<br>
+						B - 2 cycles - JE disp12<br>
+						C - 2 cycles - JMP disp12<br>
+						D - 2 cycles - NOT A<br>
+						E - 2 cycles - AND A, B<br>
+						F - 2 cycles - OR A, B
 					</div>
 				</div><hr>
 				<div>
