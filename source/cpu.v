@@ -43,14 +43,6 @@ module cpu (
 			write <= 0;
 		end else if(instructionCounter == 1) begin
 			case (instructionData[0][7:4])
-			4'b0000: {carry, A} <= A + B;
-			4'b0001: {carry, A} <= A - B;
-			4'b0010: {carry, A} <= A + B + carry;
-			4'b0011: {carry, A} <= A - B + carry;
-			4'b0100: begin
-				A <= B;
-				B <= A;
-			end
 			4'b0101: begin
 				addressBus <= IP;
 				write <= 0;
@@ -71,10 +63,6 @@ module cpu (
 				addressBus <= IP;
 				write <= 0;
 			end
-			4'b1010: begin
-				A <= C;
-				C <= A;
-			end
 			4'b1011: begin
 				addressBus <= IP;
 				write <= 0;
@@ -83,9 +71,6 @@ module cpu (
 				addressBus <= IP;
 				write <= 0;
 			end
-			4'b1101: A <= ~A;
-			4'b1110: A <= A & B;
-			4'b1111: A <= A | B;
 			endcase
 		end else if(instructionCounter == 2) begin
 			case (instructionData[0][7:4])
@@ -117,15 +102,27 @@ module cpu (
 		if (instructionCounter == 0) begin
 			sync <= 0;
 			instructionData[0] <= dataBus;
+			case(dataBus[7:4])
+			4'b0000: {carry, A} <= A + B;
+			4'b0001: {carry, A} <= A - B;
+			4'b0010: {carry, A} <= A + B + carry;
+			4'b0011: {carry, A} <= A - B - carry;
+			4'b0100: begin
+				A <= B;
+				B <= A;
+			end
+			4'b1010: begin
+				A <= C;
+				C <= A;
+			end
+			4'b1101: A <= ~A;
+			4'b1110: A <= A & B;
+			4'b1111: A <= A | B;
+			default: instructionCounter <= 1;
+			endcase
 			IP <= IP + 1;
-			instructionCounter <= 1;
 		end else if(instructionCounter == 1) begin
 			case (instructionData[0][7:4])
-			4'b0000: instructionCounter <= 0;
-			4'b0001: instructionCounter <= 0;
-			4'b0010: instructionCounter <= 0;
-			4'b0011: instructionCounter <= 0;
-			4'b0100: instructionCounter <= 0;
 			4'b0101: begin
 				A <= dataBus;
 				instructionCounter <= 0;
@@ -151,7 +148,6 @@ module cpu (
 				instructionCounter <= 2;
 				IP <= IP + 1;
 			end
-			4'b1010: instructionCounter <= 0;
 			4'b1011: begin
 				instructionData[1] <= dataBus;
 				if (A == B)
@@ -165,9 +161,6 @@ module cpu (
 				IP <= {instructionData[0][3:0], dataBus};
 				instructionCounter <= 0;
 			end
-			4'b1101: instructionCounter <= 0;
-			4'b1110: instructionCounter <= 0;
-			4'b1111: instructionCounter <= 0;
 			endcase
 		end else if(instructionCounter == 2) begin
 			case (instructionData[0][7:4])
