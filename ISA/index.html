@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>SPIS ISA</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="style.css">
+	</head>
+
+	<body>
+		<div style="width: 90%; height: 100%; margin: auto; border: 2px solid #303038;">
+			<div class="centered"> <!-- Title -->
+				<h1>SPIS Instruction Set Architecture</h1>
+			</div><hr>
+			<div> <!-- Content -->
+				<div>
+					8-bit data bus<br>
+					12-bit address bus
+				</div><hr>
+				<div>
+					<h2>Instructions</h2>
+					<div class="code">
+						0 - ADD A, B<br>
+						1 - SUB A, B<br>
+						2 - ADC A, B<br>
+						3 - SBB A, B<br>
+						4 - SWP A, B<br>
+						5 - LOAD A, imm8<br>
+						6 - LOAD A, [disp12]<br>
+						7 - LOAD A, [disp12+C]<br>
+						8 - STORE [disp12], A<br>
+						9 - STORE [disp12+C], A<br>
+						A - SWP A, C<br>
+						B - JE disp12<br>
+						C - JMP disp12<br>
+						D - NOT A<br>
+						E - AND A, B<br>
+						F - OR A, B
+					</div>
+				</div><hr>
+				<div>
+					<h2>Memory Map</h2>
+					<div class="code">
+						000 => BFF | &nbsp; &nbsp; 3 kiB | Code ROM<br>
+						C00 => EFF | 768 bytes | RAM<br>
+						F00 => FFF | 256 bytes | Display Output (32x8 ASCII)
+					</div>
+				</div><hr>
+				<div>
+					<h2>"Hello, world!" example (40 bytes)</h2>
+					<div class="code">
+						main:<br>
+						&nbsp; LOAD A, 0<br>
+						&nbsp; SWP A, C<br>
+						&nbsp; LOAD A, message.length<br>
+						&nbsp; SWP A, B<br>
+						<br>
+						.loop:<br>
+						&nbsp; LOAD A, [message+C]<br>
+						&nbsp; STORE [0xF00+C], A<br>
+						<br>
+						&nbsp; ; Increment message pointer<br>
+						&nbsp; SWP A, C<br>
+						&nbsp; SWP A, B ; These 3 SWP instructions are equivelent to a "SWP B, C" (which doesn't exist)<br>
+						&nbsp; SWP A, C<br>
+						&nbsp; LOAD A, 1<br>
+						&nbsp; ADD A, B<br>
+						<br>
+						&nbsp; ; Check if End-of-Message has been reached<br>
+						&nbsp; SWP A, B<br>
+						&nbsp; SWP A, C<br>
+						&nbsp; CMP A, B<br>
+						<br>
+						&nbsp; ; Make registers the correct order<br>
+						&nbsp; SWP A, B<br>
+						&nbsp; SWP A, C<br>
+						<br>
+						&nbsp; ; If End-of-Message was reached jump to end, otherwise jump to start of loop<br>
+						&nbsp; JE .end<br>
+						&nbsp; JMP .loop<br>
+						.end:<br>
+						&nbsp; JMP $<br>
+						<br>
+						message:<br>
+						&nbsp; #d "Hello, world!"<br>
+						.length = $ - .message
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

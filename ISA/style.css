@@ -1,0 +1,19 @@
+body {
+	background-color: #202020;
+	color: #f0f0f0;
+	height: 100%;
+}
+
+.centered {
+	text-align: center;
+	margin: auto;
+}
+
+.code {
+	border: 1px solid #000000;
+	border-radius: 5px;
+	background-color: #101010;
+	width: auto;
+	display: inline-block;
+	font-family: "Noto Sans Mono";
+}
