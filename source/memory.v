@@ -22,7 +22,7 @@ module memory (
 		$fclose(fileD);
 	end
 
-	always @ (posedge clock) begin
+	always @ (clock) begin
 		#0.05; // Have to have a delay here because otherwise it wouldn't "register" the other parameters changing
 
 		if (write)

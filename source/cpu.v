@@ -35,7 +35,7 @@ module cpu (
 		instructionCounter <= 0;
 	end
 
-	always @ (posedge clock) begin
+	always @ (clock) begin
 		if (instructionCounter == 0) begin
 			// Time to start a new instruction
 			sync <= 1;
@@ -97,7 +97,7 @@ module cpu (
 			endcase
 		end
 
-		#1; // Would have put the following in an always@(negedge clock) but if i did that then it would execute right at the beginning of the simulation.
+		#0.5; // Would have put the following in an always@(negedge clock) but if i did that then it would execute right at the beginning of the simulation.
 
 		if (instructionCounter == 0) begin
 			sync <= 0;

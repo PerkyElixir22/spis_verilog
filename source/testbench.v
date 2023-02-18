@@ -2,7 +2,7 @@
 
 module testbench;
 
-	reg clock;
+	reg clock = 0;
 
 	wire[7:0] dataBus;
 	wire[11:0] addressBus;
