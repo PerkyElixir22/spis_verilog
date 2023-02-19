@@ -24,7 +24,8 @@ module memory (
 
 	always @ (clock) begin
 		#0.05; // Have to have a delay here because otherwise it wouldn't "register" the other parameters changing
-
+		// Or more precisely, the other paramaters wouldn't have changed yet, so the delay is there to wait until after the paramaters have changed.
+		
 		if (write)
 			mem[addressBus] <= dataBus;
 		else
